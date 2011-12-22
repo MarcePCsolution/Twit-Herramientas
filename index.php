@@ -48,7 +48,11 @@ if (isset($_REQUEST['wipe'])) {
          mysql_query("INSERT INTO `Users` (`ID`, `screen_name`, `Nombre`, `Usos`) VALUES ('{$_SESSION["access_token"]["user_id"]}', '{$_SESSION["access_token"]["screen_name"]}', '{$credenciales->name}', '1')");
       } else {
          $usos = $usuario["Usos"] + 1;
+<<<<<<< HEAD
          mysql_query("UPDATE `Users` SET `Usos` = '{$usos}', WHERE `Users`.`ID` = '{$_SESSION["access_token"]["user_id"]}'");
+=======
+         mysql_query("UPDATE `Users` SET `Usos` = '{$usos}' WHERE `Users`.`ID` = '{$_SESSION["access_token"]["user_id"]}'");
+>>>>>>> a24835d789fdb44a73aced0baa6f176d4fd40783
       }
 
       setcookie("db", 1);

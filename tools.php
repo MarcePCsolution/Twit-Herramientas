@@ -1,6 +1,6 @@
 <?php
 //Aviso de caridad
-if (stripos($_SERVER['HTTP_USER_AGENT'], "googlebot") == false && $_COOKIE['aviso'] != 1) {
+/*if (stripos($_SERVER['HTTP_USER_AGENT'], "googlebot") == false && $_COOKIE['aviso'] != 1) {
 	?>
 	<script type="text/javascript">
 		alert("ATENCIÓN: Este mensaje aparecerá sólo una vez, por favor, léalo con atención.\n\n\
@@ -11,7 +11,7 @@ if (stripos($_SERVER['HTTP_USER_AGENT'], "googlebot") == false && $_COOKIE['avis
 	Atte: El Staff de Twit-Herramientas.");
 	</script>
 	<?
-};
+};*/
 setcookie("aviso", 1, time() + 60 * 60 * 24 * 30 * 6);
 ?>
 
