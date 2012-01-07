@@ -13,8 +13,9 @@
 <p class="plusone">
 </p>
 <p class="footer">
-   <g:plusone href="http://twit-herramientas.com"></g:plusone><br />
+   <g:plusone href="http://th.wazzia.com"></g:plusone><br />
    <a href="http://twitter.com/tw_herramientas" class="twitter-follow-button" data-lang="es">Síguenos en @tw_herramientas</a>
    <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
-   <br />Creadas originalmente por <a href="http://twitter.com/roobre">Roobre</a>.
+   <br />Creadas originalmente por <a href="http://twitter.com/roobre">Roobre</a>. <a href="https://github.com/roobre/Twit-Herramientas/">Código original</a>.
+   <br />Modificadas por <a href="http://twitter.com/xJakub">xJakub</a>. <a href="https://github.com/xJakub/Twit-Herramientas/">Código fuente</a>.
 </p>
