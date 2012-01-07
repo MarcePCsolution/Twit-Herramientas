@@ -8,6 +8,7 @@ $res = mysql_query("SELECT * FROM `Users`");
 while($row = mysql_fetch_array($res)) {
   $usos += $row['Usos'];
 }
+$usuarios = mysql_num_rows($res);
 
 //Top Users
 $res = mysql_query("SELECT * FROM `Users` ORDER BY `Users`.`Usos` DESC LIMIT 0 , 5");
@@ -64,7 +65,7 @@ while($row = mysql_fetch_array($res)) {
                 <th>Usuarios con +1 usos</th>
               </tr>
               <tr>
-                <td><ul><li><?=$plus1?> / <?=$usos?> (<?=floor(($plus1/$usos)*100)?>%)</li></ul></td>
+                <td><ul><li><?=$plus1?> / <?=$usuarios?> (<?=floor(($plus1/$usuarios)*100)?>%)</li></ul></td>
               </tr>
             </tbody></table>
         </td>
@@ -74,7 +75,7 @@ while($row = mysql_fetch_array($res)) {
                 <th>Usuarios con sólo un uso</th>
               </tr>
               <tr>
-                <td><ul><li><?=$usos - $plus1?> / <?=$usos?> (<?=floor((($usos - $plus1)/$usos)*100)?>%)</li></ul></td>
+                <td><ul><li><?=$usuarios - $plus1?> / <?=$usuarios?> (<?=floor((($usuarios - $plus1)/$usuarios)*100)?>%)</li></ul></td>
               </tr>
             </tbody></table>
         </td>

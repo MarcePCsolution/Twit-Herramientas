@@ -98,6 +98,42 @@ setcookie("aviso", 1, time() + 60 * 60 * 24 * 30 * 6);
                   </table>
                </td>
             </tr>
+            <tr>
+               <td>
+                  <table class="app" cellspacing="25px">
+                     <tbody>
+                        <tr><th><a href="antiquety/">Antigüedad</a></th></tr>
+                        <tr><td>Muestra la edad y viciadez en Twitter de tu cuenta y de tus follows más recientes.<br /><br />Si lo marcaste al iniciar sesión, estos datos se twitearán en tu Perfil.</td></tr>
+                     </tbody>
+                  </table>
+               </td>
+               <td>
+                  <table class="app" cellspacing="25px">
+                     <tbody>
+                        <tr><th><a href="mentioners/">Usuarios que te mencionan</a></th></tr>
+                        <tr><td>Averigua qué usuarios hablan más contigo o de ti, es decir, los que hacen más famoso tu nombre por las redes.</td></tr>
+                     </tbody>
+                  </table>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <table class="app" cellspacing="25px">
+                     <tbody>
+                        <tr><th><a href="retweetsofme/">Retwits de mis twits</a></th></tr>
+                        <tr><td>Averigua cuáles de tus últimos twits han sido retwiteados.</td></tr>
+                     </tbody>
+                  </table>
+               </td>
+               <td>
+                  <table class="app" cellspacing="25px">
+                     <tbody>
+                        <tr><th><a href="mytopics/">Temas favoritos</a></th></tr>
+                        <tr><td>Averigua qué temas/palabras aparecen más en tus twits y retwits.<br /><br />Si lo marcaste al iniciar sesión, estos datos se twitearán en tu Perfil.</td></tr>
+                     </tbody>
+                  </table>
+               </td>
+            </tr>
          </tbody>
       </table>
       <a href="?wipe"><img src="http://img.twit-herramientas.com/close.png" alt="Cerrar sesión" style="position: fixed; top: 2%; right: 0px;"></a>

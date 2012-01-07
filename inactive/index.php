@@ -42,7 +42,7 @@
 		$tmhOAuth->request('GET', $tmhOAuth->url('1/friends/ids'), array(
 			'id' => $_SESSION["access_token"]["user_id"]
 		));
-		$friends = array('ids' => json_decode($tmhOAuth->response['response']), 'num' => count(json_decode($tmhOAuth->response['response'])));
+		$friends = array('ids' => json_array($tmhOAuth->response['response'],'ids'), 'num' => count(json_array($tmhOAuth->response['response'],'ids')));
 		if (!is_array($friends['ids'])) {
 			$friends['ids'] = array();
 		}
@@ -58,13 +58,14 @@
             $tmhOAuth->request('GET', $tmhOAuth->url('1/users/lookup'), array(
                 'user_id' => implode(",", array_slice($friends["ids"], $i, 100))
             ));
-            $respuesta = json_decode($tmhOAuth->response['response']);
+            $respuesta = json_array($tmhOAuth->response['response']);
             if (!is_array($respuesta)) {
                $respuesta = array();
             }
 
             $friends_data = array();
             foreach ($respuesta as $friend_data) {
+			$friend_data = array_object($friend_data);
                if ($hoy - strtotime($friend_data->status->created_at) > $cota) {
                   $friends_data[] = $friend_data;
                }
@@ -142,7 +143,7 @@
 		$tmhOAuth->request('GET', $tmhOAuth->url('1/friends/ids'), array(
 			'id' => $_SESSION["access_token"]["user_id"]
 		));
-		$friends = array('ids' => json_decode($tmhOAuth->response['response']), 'num' => count(json_decode($tmhOAuth->response['response'])));
+		$friends = array('ids' => json_array($tmhOAuth->response['response']), 'num' => count(json_array($tmhOAuth->response['response'])));
 		if (!is_array($friends['ids'])) {
 			$friends['ids'] = array();
 		}
@@ -160,7 +161,7 @@
          $tmhOAuth->request('GET', $tmhOAuth->url('1/users/lookup'), array(
              'user_id' => implode(",", $unfollowear),
          ));
-         $unfollowear_data = json_decode($tmhOAuth->response['response']);
+         $unfollowear_data = json_array($tmhOAuth->response['response']);
          if (!is_array($unfollowear_data)) {
             $unfollowear_data = array();
          }

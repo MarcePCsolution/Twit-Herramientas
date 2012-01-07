@@ -41,7 +41,7 @@
 		$tmhOAuth->request('GET', $tmhOAuth->url('1/followers/ids'), array(
 			'id' => $_SESSION["access_token"]["user_id"]
 		));
-		$followers = array('ids' => json_decode($tmhOAuth->response['response']), 'num' => count(json_decode($tmhOAuth->response['response'])));		
+		$followers = array('ids' => json_object($tmhOAuth->response['response']), 'num' => count(json_object($tmhOAuth->response['response'])));		
 		if (!is_array($followers['ids'])) {
 			$followers['ids'] = array();
 		}
@@ -55,7 +55,7 @@
 		$tmhOAuth->request('GET', $tmhOAuth->url('1/friends/ids'), array(
 			'id' => $_SESSION["access_token"]["user_id"]
 		));
-		$friends = array('ids' => json_decode($tmhOAuth->response['response']), 'num' => count(json_decode($tmhOAuth->response['response'])));
+		$friends = array('ids' => json_object($tmhOAuth->response['response']), 'num' => count(json_object($tmhOAuth->response['response'])));
 		if (!is_array($friends['ids'])) {
 			$friends['ids'] = array();
 		}
@@ -78,7 +78,7 @@
             $tmhOAuth->request('GET', $tmhOAuth->url('1/users/lookup'), array(
                 'user_id' => implode(",", array_slice($traidores, 0, 100)),
             ));
-            $traidores_data = json_decode($tmhOAuth->response['response']);
+            $traidores_data = json_object($tmhOAuth->response['response']);
             if (!is_array($traidores_data)) {
                $traidores_data = array();
             }
@@ -157,7 +157,7 @@
 		$tmhOAuth->request('GET', $tmhOAuth->url('1/followers/ids'), array(
 			'id' => $_SESSION["access_token"]["user_id"]
 		));
-		$followers = array('ids' => json_decode($tmhOAuth->response['response']), 'num' => count(json_decode($tmhOAuth->response['response'])));		
+		$followers = array('ids' => json_object($tmhOAuth->response['response']), 'num' => count(json_object($tmhOAuth->response['response'])));		
 		if (!is_array($followers['ids'])) {
 			$followers['ids'] = array();
 		}
@@ -175,7 +175,7 @@
             $tmhOAuth->request('GET', $tmhOAuth->url('1/users/lookup'), array(
                 'user_id' => implode(",", $followear),
             ));
-            $followear_data = json_decode($tmhOAuth->response['response']);
+            $followear_data = json_object($tmhOAuth->response['response']);
             if (!is_array($followear_data)) {
                $followear_data = array();
             }

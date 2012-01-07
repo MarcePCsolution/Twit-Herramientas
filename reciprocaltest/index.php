@@ -36,32 +36,10 @@
          }
 
          // Conseguir Followers
-	if (isset($_SESSION["followers"]["ids"]) && is_array($_SESSION["followers"]["ids"]) && count($_SESSION["followers"]["ids"]) != 0) {
-		$followers = $_SESSION["followers"];
-	} else {
-		$tmhOAuth->request('GET', $tmhOAuth->url('1/followers/ids'), array(
-			'id' => $_SESSION["access_token"]["user_id"]
-		));
-		$followers = array('ids' => json_decode($tmhOAuth->response['response']), 'num' => count(json_decode($tmhOAuth->response['response'])));		
-		if (!is_array($followers['ids'])) {
-			$followers['ids'] = array();
-		}
-		$_SESSION["followers"] = $followers;
-	}
+	get_followers();
 
          //Conseguir Firends
-	if (isset($_SESSION["friends"]["ids"]) && is_array($_SESSION["friends"]["ids"]) && count($_SESSION["friends"]["ids"]) != 0) {
-		$friends = $_SESSION["friends"];
-	} else {
-		$tmhOAuth->request('GET', $tmhOAuth->url('1/friends/ids'), array(
-			'id' => $_SESSION["access_token"]["user_id"]
-		));
-		$friends = array('ids' => json_decode($tmhOAuth->response['response']), 'num' => count(json_decode($tmhOAuth->response['response'])));
-		if (!is_array($friends['ids'])) {
-			$friends['ids'] = array();
-		}
-		$_SESSION["friends"] = $friends;
-	}
+	get_friends();
 
 //      if ($followers['num'] == 5000 || $friends['num'] == 5000) {
 //        echo("<p align=\"center\">Atención: Tienes más de 5000 followers o sigues a más de 5000 personas.<br>
@@ -78,7 +56,7 @@
             $tmhOAuth->request('GET', $tmhOAuth->url('1/users/lookup'), array(
                 'user_id' => implode(",", array_slice($traidores, 0, 100)),
             ));
-            $traidores_data = json_decode($tmhOAuth->response['response']);
+            $traidores_data = json_array($tmhOAuth->response['response']);
             if (count($traidores) > 100) {
                Echo("<p align=\"center\">Sigues a más de 100 ególatras.<br />
                               Sólo se mostrarán los 100 más recientes</p>");
@@ -99,6 +77,7 @@
                      $traidores_data = array();
                   }
                   foreach ($traidores_data as $traidor_data) {
+				  $traidor_data = array_object($traidor_data);
                      ?>
                      <tr>
                         <td>
@@ -149,7 +128,7 @@
             $tmhOAuth->config['user_secret'] = $_SESSION['access_token']['oauth_token_secret'];
 
 //            $tmhOAuth->request('GET', $tmhOAuth->url('1/account/verify_credentials'));
-//            $credenciales = json_decode($tmhOAuth->response['response']);
+//            $credenciales = json_array($tmhOAuth->response['response']);
 
 		 //Conseguir Firends
 		if (isset($_SESSION["friends"]["ids"]) && is_array($_SESSION["friends"]["ids"]) && count($_SESSION["friends"]["ids"]) != 0) {
@@ -158,7 +137,7 @@
 			$tmhOAuth->request('GET', $tmhOAuth->url('1/friends/ids'), array(
 				'id' => $_SESSION["access_token"]["user_id"]
 			));
-			$friends = array('ids' => json_decode($tmhOAuth->response['response']), 'num' => count(json_decode($tmhOAuth->response['response'])));
+			$friends = array('ids' => json_array($tmhOAuth->response['response']), 'num' => count(json_array($tmhOAuth->response['response'])));
 			if (!is_array($friends['ids'])) {
 				$friends['ids'] = array();
 			}
@@ -175,7 +154,7 @@
             $tmhOAuth->request('GET', $tmhOAuth->url('1/users/lookup'), array(
                 'user_id' => implode(",", $unfollowear),
             ));
-            $unfollowear_data = json_decode($tmhOAuth->response['response']);
+            $unfollowear_data = json_array($tmhOAuth->response['response']);
             if (!is_array($unfollowear_data)) {
                $unfollowear_data = array();
             }
@@ -186,6 +165,7 @@
 
                         <?
                         foreach ($unfollowear_data as $unfollowed) {
+						$unfollowed = array_object($unfollowed);
                            $tmhOAuth->request('POST', $tmhOAuth->url('1/friendships/destroy'), array(
                                'id' => $unfollowed->id,
                            ));

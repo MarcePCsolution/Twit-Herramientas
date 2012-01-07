@@ -39,7 +39,7 @@
             ));
          }
 
-         $busqueda = json_decode(file_get_contents("http://search.twitter.com/search.json?q={$_POST['criterio']}&rpp=100"));
+         $busqueda = json_decode(file_get_contents("http://search.twitter.com/search.json?q=".urlencode($_POST['criterio'])."&rpp=100"));
          $resultados = $busqueda->results;
          if (!is_array($resultados)) {
             $resultados = array();

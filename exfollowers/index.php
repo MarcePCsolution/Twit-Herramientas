@@ -43,7 +43,7 @@
 		$tmhOAuth->request('GET', $tmhOAuth->url('1/followers/ids'), array(
 			'id' => $_SESSION["access_token"]["user_id"]
 		));
-		$followers = array('ids' => json_decode($tmhOAuth->response['response']), 'num' => count(json_decode($tmhOAuth->response['response'])));		
+		$followers = array('ids' => json_array($tmhOAuth->response['response'],'ids'), 'num' => count(json_array($tmhOAuth->response['response'],'ids')));		
 		if (!is_array($followers['ids'])) {
 			$followers['ids'] = array();
 		}
@@ -77,11 +77,16 @@
                      </tr>
                      <tr><td colspan="2"><hr style="width: 250px"></td></tr>
                      <?
-                     $exfollowers_data = json_decode($tmhOAuth->response['response']);
+                     $exfollowers_data = json_array($tmhOAuth->response['response']);
                      if (!is_array($exfollowers_data)) {
                         $exfollowers_data = array();
                      }
+					 
+					 $unfollows = '';
+					 
                      foreach ($exfollowers_data as $exfollower) {
+					 $unfollows .= "{$exfollower[id]}=".strtotime($tmhOAuth->response['headers']['date']).";";
+					 $exfollower = array_object($exfollower);
                         ?>
                         <tr>
                            <td>
@@ -109,7 +114,12 @@
                echo("<p align=\"center\">Tienes los mismos followers que la última vez que lo consultaste.</p>");
             }
             $usos = $usuario["Usos"] + 1;
-            mysql_query("UPDATE `Exfollowers` SET `Followers` = '" . implode(";", $followers["ids"]) . "', `Usos` = '" . $usos . "' WHERE `Exfollowers`.`ID` = '{$_SESSION["access_token"]["user_id"]}'");
+            if (!strlen($unfollows)) {
+			mysql_query("UPDATE `Exfollowers` SET `Followers` = '" . implode(";", $followers["ids"]) . "', `Usos` = '" . $usos . "' WHERE `Exfollowers`.`ID` = '{$_SESSION["access_token"]["user_id"]}'");
+			}
+			else {
+			mysql_query("UPDATE `Exfollowers` SET `Unfollows` = concat(`Unfollows`,'".mysql_real_escape_string($unfollows)."'), `Followers` = '" . implode(";", $followers["ids"]) . "', `Usos` = '" . $usos . "' WHERE `Exfollowers`.`ID` = '{$_SESSION["access_token"]["user_id"]}'");
+			}
          }
          ?><p align="center"><button onclick="location.href='?action='">Volver</button></p><?
       } else {
