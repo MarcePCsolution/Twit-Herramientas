@@ -44,13 +44,18 @@
 			
 		$twits = json_decode($tmhOAuth->response['response'],true);
 		
-		if (!is_array($twits)) die("Ha habido un error. Inténtalo más tarde o llama por teléfono a nuestro equipo de Abejas asesinas para eliminar el problema.");
+		if (!is_array($twits)) die("Por razones desconocidas, hay que recargar para hacer funcionar la herramienta. Pulsa F5 o recarga la página para hacer servir esta herramienta.<br /><br />Ha habido un error. Inténtalo más tarde o llama por teléfono a nuestro equipo de Abejas asesinas para eliminar el problema.");
 		
 		foreach($twits as $twit) {
+		
+				
+		$text = strtolower(utf8_decode($twit['text']));
+		if (substr($text,0,strlen("usando las twit-herramientas"))=="usando las twit-herramientas") continue;
 		$twitcount ++;
 		$twitwords = Array();
+				
+		$text = preg_replace("'http\:\/\/t\.co\/([a-zA-Z0-9]+)'","",$text);
 		
-		$text = strtolower(utf8_decode($twit['text']));
 		if (preg_match_all("'([\@\_a-zA-Z0-9ñÑáÁéÉíÍóÓúÚüÜ\#]+)'",$text,$matches)) {
 		foreach($matches[1] as $word) {
 		if (strlen($word)>4 && $word != "http")
@@ -106,7 +111,7 @@
          <hr>
          <table align="center"><tbody><tr>
                   <td>
-                     <p>¡Conoce los temas de los que más hablas o las palabras que más utilizas!<br /><br />Esta herramienta te muestra una tabla con las 100 palabras que más usas en tus twits.</p>
+                     <p>¡Conoce los temas de los que más hablas o las palabras que más utilizas!<br /><br />Esta herramienta te muestra una tabla con las 100 palabras que más usas en tus twits (eso sí, se excluyen palabras con menos de 5 letras, pues suelen ser "que", "y", "en", etc.</p>
                   </td>
                </tr>
                <tr><th colspan="2"><button onclick="location.href='?action=start'"><? $mensajes = array("¡Empezar!", "¡Dale Caña!", "¡A toda máquina!", "¡Enséñamelas!", "Ok pipol, press estart");
