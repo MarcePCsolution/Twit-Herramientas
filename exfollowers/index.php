@@ -85,7 +85,7 @@
 					 $unfollows = '';
 					 
                      foreach ($exfollowers_data as $exfollower) {
-					 $unfollows .= "{$exfollower[id]}=".strtotime($tmhOAuth->response['headers']['date']).";";
+					 $unfollows .= "{$exfollower[id]}".strtotime($tmhOAuth->response['headers']['date']).";";
 					 $exfollower = array_object($exfollower);
                         ?>
                         <tr>
@@ -111,7 +111,7 @@
                   </tbody></table>
                <?
             } else {
-               echo("<p align=\"center\">Tienes los mismos followers que la última vez que lo consultaste.</p>");
+               echo("<p align=\"center\">Tienes los mismos followers que la ï¿½ltima vez que lo consultaste.</p>");
             }
             $usos = $usuario["Usos"] + 1;
             if (!strlen($unfollows)) {
@@ -131,13 +131,13 @@
          <hr>
          <table align="center"><tbody><tr>
                   <td>
-                     <p>El "Buscador de Ex-Followers" es una herramienta que te mostrará que usuarios han dejado de seguirte.</p>
+                     <p>El "Buscador de Ex-Followers" es una herramienta que te mostrarï¿½ que usuarios han dejado de seguirte.</p>
                      <p>Funcionamiento:<br />
-                        La primera vez que uses el "Buscador de Ex-Followers", registrará los followers que tienes en este momento.<br />
-                        A partir de entonces, cada vez que visites la herramienta de nuevo te dirá quienes te han dejado de seguir, tomando como referencia la última vez que lo visitaste.</p>
+                        La primera vez que uses el "Buscador de Ex-Followers", registrarï¿½ los followers que tienes en este momento.<br />
+                        A partir de entonces, cada vez que visites la herramienta de nuevo te dirï¿½ quienes te han dejado de seguir, tomando como referencia la ï¿½ltima vez que lo visitaste.</p>
                   </td>
                </tr>
-               <tr><th colspan="2"><button onclick="location.href='?action=start'"><? $mensajes = array("¡Empezar!", "¡Dale Caña!", "¡Dime quién me ha dejado de seguir!", "¡Enséñamelos!", "Ok pipol, press estart");
+               <tr><th colspan="2"><button onclick="location.href='?action=start'"><? $mensajes = array("ï¿½Empezar!", "ï¿½Dale Caï¿½a!", "ï¿½Dime quiï¿½n me ha dejado de seguir!", "ï¿½Ensï¿½ï¿½amelos!", "Ok pipol, press estart");
          echo($mensajes[rand(0, count($mensajes) - 1)]); ?></button></th></tr>
             </tbody></table>
          <hr>
