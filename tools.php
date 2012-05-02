@@ -1,166 +1,149 @@
+<?php //Aviso de caridad
+	if(stripos($_SERVER['HTTP_USER_AGENT'], "googlebot") == false && $_COOKIE['aviso'] != 1) {
+		setcookie("aviso",1,time()+60*60*24*30*6); ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+<head>
+<link type="text/css" rel="stylesheet" media="screen" href="todo.css" />
+</head>
+<script type="text/javascript">
+alert("ATENCIÃ“N:\n\n\
+Este mensaje aparece sÃ³lo una vez.\n\
+Por favor, lÃ©alo con atenciÃ³n:\n\n\
+Twit-Herramientas es una pÃ¡gina\n\
+que ofrece servicios\n\
+en forma GRATUITA.\n\n\
+Para mantenerla,\n\
+mostramos publicidad.\n\n\
+Si utiliza software\n\
+de bloqueo de anuncios.\n\
+pedimos lo desactive\n\
+mientras navega esta web.\n\n\
+Si alguno de los anuncios\n\
+le parece interesante,\n\
+le recordamos\n\
+que hacer click en ellos\n\
+no interrumpe la navegaciÃ³n,\n\
+y ayuda a sostener la web;\n\
+permiten que continÃºe gratuita,\n\
+se mejore, y se actualice.\n\n\
+Piense que mantener el sitio\n\
+requiere inversiÃ³n en gasto,\n\
+y muchas horas de trabajo.\n\n\
+Gracias por entender.\n\n\
+Atte.: El Staff de Twit-Herramientas.");
+</script>
+</body>
+</html>
+<?php } ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
 <?php
-//Aviso de caridad
-/*if (stripos($_SERVER['HTTP_USER_AGENT'], "googlebot") == false && $_COOKIE['aviso'] != 1) {
-	?>
-	<script type="text/javascript">
-		alert("ATENCIÓN: Este mensaje aparecerá sólo una vez, por favor, léalo con atención.\n\n\
-	Twit-Herramientas es una página web que ofrece servicios de forma GRATUITA.\n\
-	Por ello, para poder mantenerla, mostramos anuncios en la parte superior. Estos anuncios no son intrusivos, así que si utiliza software de bloqueo de anuncios como \"AdBlock Plus\" o similares, preferimos que lo desactive al navegar por nuestra página.\n\n\
-	Además, si alguno de los anuncios que se muestran le parece interesante, le recordamos que hacer click en ellos no interrumpirá la navegación, además de que nos ayuda a seguir con la página de forma gratuita y en mejora constante.\n\n\
-	Muchas gracias por su atención.\n\
-	Atte: El Staff de Twit-Herramientas.");
-	</script>
-	<?
-};*/
-setcookie("aviso", 1, time() + 60 * 60 * 24 * 30 * 6);
-?>
+	$descr = "Herramientas que harÃ¡n mÃ¡s fÃ¡cil tu experiencia en Twitter";
+	include "includes/head.inc"; ?>
+</head>
+<body>
+	<!-- MÃ³dulo wrapper -->	
+	<div class="contenedor">
+		<!-- Contenido -->
+		<div class="contenidoLogin">
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-   <head>
-		<? $descr = "Conjunto de herramientas para utilizar con twitter";
-		include("includes/head.inc") ?>
-   </head>
-   <body>
-      <h1 style="display: none">Utilidades Twitter</h1>
-      <h2 style="display: none">Herramientas para Twitter</h2>
-<!--      <p align="center"><a target="_blank" href="/"><img src="http://img.twit-herramientas.com/logo.png" alt="Logo"></a></p>
-      <a target="_blank" href="/"><img style="position:fixed;bottom:0%; right:2%" src="http://img.twit-herramientas.com/icon.png" alt="Icono"></a>-->
-		<? include("includes/header.inc"); //echo('<div style="margin-top: 100px">') ?>
-      <hr>
-      <p align="center">
-			<? include("includes/ads.inc"); ?>
-      </p>
-      <hr>
-      <table align="center"><tbody>
-            <tr>
-               <th colspan="2" style="text-align: center">
-                  <img src="http://img.twit-herramientas.com/herramientas.png" alt="Herramientas">
-               </th>
-            </tr>
-            <tr>
-               <td>
-                  <table class="app" cellspacing="15px">
-                     <tbody>
-                        <tr><th><a href="reciprocaltest/">Test de Reciprocidad</a></th></tr>
-                        <tr><td>Comprueba los usuarios que sigues pero no te siguen a ti.<br>
-                              ¡Muy útil para limpiar tus followers de ególatras!</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-               <td>
-                  <table class="app" cellspacing="25px">
-                     <tbody>
-                        <tr><th><a href="exfollowers/">Buscador de Ex-Followers</a></th></tr>
-                        <tr><td>Encuentra a la gente que te ha dejado de seguir.<br>
-                              ¡Tienes derecho a saberlo!</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-            </tr>
-            <tr>
-               <td>
-                  <table class="app" cellspacing="15px">
-                     <tbody>
-                        <tr><th><a href="invreciprocaltest/">Test de Reciprocidad inverso</a></th></tr>
-                        <tr><td>Comprueba quienes te siguen pero tú a ellos no.<br>
-                              Quizá merezca la pena seguirlos, ¡no seas ególatra!</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-               <td>
-                  <table class="app" cellspacing="25px">
-                     <tbody>
-                        <tr><th><a href="inactive/">Test de Inactividad</a></th></tr>
-                        <tr><td>Averigua que usuarios, de entre los que sigues,
-                              Twittean muy poco.</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-            </tr>
-            <tr>
-               <td>
-                  <table class="app" cellspacing="25px">
-                     <tbody>
-                        <tr><th><a href="viewblock/">ViewBlock</a></th></tr>
-                        <tr><td>Muestra a los usuarios que has bloqueado, y permite<br>
-                              desbloquearlos si lo crees conveniente.</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-               <td>
-                  <table class="app" cellspacing="25px">
-                     <tbody>
-                        <tr><th><a href="followbysearch/">Seguir mediante búsqueda</a></th></tr>
-                        <tr><td>Encuentra y sigue a numerosos usuarios
-                              según un criterio de búsqueda.</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-            </tr>
-            <tr>
-               <td>
-                  <table class="app" cellspacing="25px">
-                     <tbody>
-                        <tr><th><a href="antiquety/">Antigüedad</a></th></tr>
-                        <tr><td>Muestra la edad y viciadez en Twitter de tu cuenta y de tus follows más recientes.<br /><br />Si lo marcaste al iniciar sesión, estos datos se twitearán en tu Perfil.</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-               <td>
-                  <table class="app" cellspacing="25px">
-                     <tbody>
-                        <tr><th><a href="mentioners/">Usuarios que te mencionan</a></th></tr>
-                        <tr><td>Averigua qué usuarios hablan más contigo o de ti, es decir, los que hacen más famoso tu nombre por las redes.</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-            </tr>
-            <tr>
-               <td>
-                  <table class="app" cellspacing="25px">
-                     <tbody>
-                        <tr><th><a href="retweetsofme/">Retwits de mis twits</a></th></tr>
-                        <tr><td>Averigua cuáles de tus últimos twits han sido retwiteados.</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-               <td>
-                  <table class="app" cellspacing="25px">
-                     <tbody>
-                        <tr><th><a href="mytopics/">Temas favoritos</a></th></tr>
-                        <tr><td>Averigua qué temas/palabras aparecen más en tus twits y retwits.<br /><br />Si lo marcaste al iniciar sesión, estos datos se twitearán en tu Perfil.</td></tr>
-                     </tbody>
-                  </table>
-               </td>
-            </tr>
-         </tbody>
-      </table>
-      <a href="?wipe"><img src="http://img.twit-herramientas.com/close.png" alt="Cerrar sesión" style="position: fixed; top: 2%; right: 0px;"></a>
-      <hr>
-      <table align="center">
-         <tbody>
-            <tr><th style="text-align: center; font-size: large"><a target="_blank" href="http://twitter.com/home?status=@tw_herramientas - Sugerencia:  "><img src="http://img.twit-herramientas.com/sugerencias.png" alt="Contacto"></a></th></tr>
-            <tr><th style="color: red">Por favor, antes de enviar una sugerencia, lea la sección de<br /><a target="_blank" href="faq.html">Preguntas Frecuentes</a></th></tr>
-            <tr><td style="text-align: center">Haz click <a target="_blank" href="http://twitter.com/home?status=@tw_herramientas - Sugerencia:  " style="color:red">aquí</a> para enviarnos tu sugerencia. ¡Gracias!</td></tr>
-         </tbody>
-      </table>
-      <hr>
-      <table align="center">
-			<tbody>
-            <tr><th colspan="2" style="text-align: center"><img src="http://img.twit-herramientas.com/patrocinadores.png" alt="Patrocinadores"></th></tr>
-            <tr>
-               <td style="width: 325px; text-align: center; vertical-align: middle;">
-                  <span style="display: none;"><a href="http://www.ikkaro.com">Inventos y experimentos caseros</a></span>
-                  <p style="vertical-align: top;"><a target="_blank" title="Inventos y experimentos caseros" href="http://www.ikkaro.com"><img alt="Inventos y experimentos caseros" src="http://img.twit-herramientas.com/ikkaro.jpg"></a></p></td>
-               <td style="width: 325px; text-align: center; vertical-align: middle;">
-                  <span style="display: none;"><a href="http://twittboy.com.com">Todo Twitter en una web</a></span><p>
-                     <a target="_blank" title="Todo Twitter en una web" href="http://twittboy.com"><img alt="Twittboy: Todo Twitter en una web" src="http://img.twit-herramientas.com/twittboy.jpg"></a></p>
-               </td>
-            </tr>
-         </tbody>
-		</table>
-      <hr>
-		<? include("includes/footer.inc") ?>
-   </body>
+			<?php include 'includes/encabezado_login.php'; ?>
+
+			<h1 class="p1" style="font-size:26px; margin-top:20px;">Utilidades que te ayudarÃ¡n en Twitter</h1>
+			<h2 style="display: none">Herramientas para Twitter</h2>
+
+			<!--Google Adsense Code -->
+			<!-- div class="banner1"> // La clase no existe en este momento
+				<hr>
+				<p align="center"> < ?php include "includes/ads.inc"; ? > </p>
+				<hr>
+			</div -->
+
+			<!-- Cuadro de Herramientas -->
+			<div class="herramientas">
+				<div class="fila1">
+					<p><a href="reciprocaltest/">Test de Reciprocidad</a></p>
+					<p>Comprueba los usuarios que sigues,<br />pero no te siguen.</p><p>Â¡Fuera egÃ³latras!</p>
+				</div>
+				<div class="fila1">
+					<p><a href="invreciprocaltest/">Test de Reciprocidad inverso</a></p>
+					<p>Comprueba quiÃ©nes te siguen<br />pero tÃº no a ellos.<br />QuizÃ¡ valga la pena seguirlos,</p><p>Â¡No seas egÃ³latra!</p>
+				</div>
+				<div class="fila1">
+					<p><a href="exfollowers/">Buscador de Ex-Followers</a></p>
+					<p>Encuentra quÃ© usuarios<br />te han dejado de seguir.</p><p>Â¡Tienes derecho a saberlo!</p>
+				</div>
+		
+				<div class="fila2">
+					<p><a href="viewblock/">Gestionar Bloqueados</a></p>
+					<p>Muestra los usuarios que bloqueaste,<br />y permite desbloquearlos.</p>
+				</div>
+				<div class="fila2">
+					<p><a href="inactive/">Test de Inactividad</a></p>
+					<p>Averigua quÃ© usuarios, de entre los que sigues, tweettean muy poco.</p>
+				</div>
+				<div class="fila2">
+					<p><a href="antiquety/">Actividad & AntigÃ¼edad</a></p>
+					<p>Muestra la edad y actividad de tu cuenta,<br />y de tus 100 follows mÃ¡s recientes.</p>
+				</div>
+		
+				<div class="fila3">
+					<p><a href="mentioners/">Â¿QuiÃ©n me menciona?</a></p>
+					<p>Averigua quÃ© usuarios hacen famoso<br />tu nombre en la red.</p>
+				</div>
+				<div class="fila3">
+					<p><a href="myretweets/">Mis Re-Tweets</a></p>
+					<p>Averigua el Ã©xito que alcanzaron<br />tus Ãºltimos RT.</p>
+				</div>
+				<div class="fila3">
+					<p><a href="retweetsofme/">Re-Tweets de mis tweets</a></p>
+					<p>Averigua cuÃ¡les de tus Ãºltimos tweets han sido Re-Tweeteados.</p>
+				</div>
+		
+				<div class="fila4">
+					<p><a href="followbysearch/">Seguir mediante bÃºsqueda</a></p>
+					<p>Encuentra y sigue a numerosos usuarios segÃºn un criterio de bÃºsqueda.</p>
+				</div>
+				<div class="fila4">
+					<p><a href="mytopics/">Mis temas favoritos</a></p>
+					<p>Averigua quÃ© palabras aparecen mÃ¡s<br />en tus tweets y RTs.<br />Si lo marcaste al iniciar sesiÃ³n,<br />estos datos se verÃ¡n en tu Perfil.</p>
+				</div>
+				<div class="fila4">
+					<!--p><a href="mytopics/">Mis temas favoritos</a></p>
+					<p>Averigua quÃ© temas/palabras aparecen mÃ¡s en tus twits y retwits.<br /><br />Si lo marcaste al iniciar sesiÃ³n, estos datos se twitearÃ¡n en tu Perfil.</p -->
+				</div>
+			</div>
+			<div class="cleared reset-box"></div>
+			<!-- FIN Cuadro de Herramientas -->
+	
+			<div class="sugerencias">
+				<div class="sugeSub">
+					<h2 class="p1" style="font-size:24px;"> <a target="_blank" href="http://twitter.com/home?status=@MarcePCsolution - Sugerencia:  ">Sugerencias:</a></h2>
+					<p class="p1">Para enviarnos una sugerencia,<br />haz click<a target="_blank" href="http://twitter.com/home?status=@MarcePCsolution - Sugerencia: " style="color:red">&emsp;> aquÃ­ <&ensp;</a>Â¡Gracias!</p>
+				</div>
+				<div class="sugeSub">
+					<h2 class="p1" style="font-size:24px;"> <a target="_blank" href="/faq.php">Preguntas Frecuentes:</a></h2>
+					<p class="p1">Antes de enviar una sugerencia, lee las:
+					<br /><span> <a href="faq.php" target="_blank" style="color:red">Preguntas Frecuentes</a> </span></p>
+				</div>
+				<div class="cleared reset-box"></div>
+
+				<div class="patrocinadores">
+					<p> <a href="/contacto.php" target="_blank"><img src="imagenes/patrocinadores.png" alt="Patrocinadores"></a> </p>
+					<h3> <a href="/contacto.php" target="_blank"> Anuncie en nuestro sitio </a></h3>
+				</div>
+			</div>
+			<div class="cleared reset-box"></div>
+
+		</div>
+		<!-- FIN Contenido -->
+	</div>
+	<!-- FIN MÃ³dulo wrapper -->	
+
+	<?php include "includes/pie_login.php"; ?>
+
+</body>
 </html>
