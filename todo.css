@@ -1,72 +1,447 @@
-/* 
-    Document   : todo
+/*    -----------------------------------------------
+	Document   : todo.css
     Created on : 30-sep-2010, 16:15:02
     Author     : roobre
-    Description:
-        Purpose of the stylesheet follows.
+    Description: Purpose of the stylesheet follows.
+	-----------------------------------------------
+	Modificado : MarcePCsolution
+	A partir de: oct/2011.
+	-----------------------------------------------
 */
 
-body {
-    background-image: url('http://img.twit-herramientas.com/nubes.jpg');
-    background-repeat: repeat-x;
-    background-position: top left;
-    background-attachment: scroll;
-    background-color: #c0deed;
-    margin: 33px;
-    margin-top: 20px;
-    margin-bottom: 50px;
-    font: 13px/1.5 'Helvetica Neue','Arial','Helvetica','Liberation Sans','FreeSans','sans-serif';
-
+/* ----------- RESET ------------- */
+* {
+	margin:0;
+	padding:0;
 }
+/* ----- Sticky Footer Code ------ */
+html {
+    height:100%;
+}
+body {
+    height:100%;
+    background-image:url(/imagenes/nubes.jpg);
+    background-repeat:repeat-x;
+	background-position:0% 6%;
+    background-attachment:scroll;
+    background-color:#c0deed;
+	font-size:76%;
+	font-family:"Helvetica Neue",Arial,Helvetica,Liberation Sans,FreeSans,sans-serif;
+}
+body:before {	/*Opera Fix*/
+	content:"";
+	height:100%;
+	float:left;
+	width:0;
+	margin-top:-32767px;
+}
+.contenedor {
+	min-height:100%;
+}
+.contenidoLibre {
+	padding-bottom:150px; /* Debe ser el mismo height que el footer */
+}
+.contenidoLogin {
+	padding-bottom:217px; /* Debe ser el mismo height que el footer */
+}
+.encabezado {
+	padding-bottom:40px;
+}
+.PiePaginaLibre {
+	position:relative;
+	clear:both;
+	margin-top:-172px; /* Debe ser el valor negativo del height del footer */
+	height:150px;
+}
+.PiePaginaLogin {
+	position:relative;
+	height:172px;
+	margin-top:-217px; /* Debe ser el valor negativo del height del footer */
+	clear:both;
+}
+/* ------ FIN Sticky Footer ------ */
+
+/* ---------- Etiquetas ---------- */
+a:link, a:visited {
+    color:#3e81a8;
+	text-decoration:none;
+	text-shadow:0 1px 1.5px #f0f0f0;
+	font-weight:bolder;
+/*	text-shadow: 0.1em 0.1em 0.05em #333; */
+}
+a:hover {
+	color:#fb702d;
+	font-weight:bold;
+    text-decoration:none;
+}
+.p1 {
+	padding:8px;
+	line-height:20px;
+	text-align:center;
+	font-size:14px;
+	color:#fff;
+	color: white; text-shadow: black 0.1em 0.1em 0.2em;
+}
+.p2 {
+	padding:8px;
+	line-height:20px;
+/*	text-align:right; */
+	font-size:14px;
+	color:#234961;
+	text-shadow:#fff 0.15em 0.15em 0.2em;
+/*	text-shadow: black 0.1em 0.1em 0.2em; */
+}
+/* -------- FIN Etiquetas -------- */
+
+/* ------- Menu Pajarito --------- */
+.pajarito {
+	position:fixed;
+	bottom:2%;
+	right:2%;
+	z-index:'10';
+}
+/* ------- FIN Menu Pajarito ------ */
+
+#lista1 {
+	margin:20px 0 0 40px;
+	padding:8px;
+	line-height:14px;
+	font-size:12px;
+	color:#fff;
+	color: white; text-shadow: black 0.1em 0.1em 0.2em;
+}
+#lista1 a {
+/*	margin:20px 0 0 40px;
+	padding:8px;
+	line-height:14px;
+	font-size:12px;
+	color:#fff;
+	color: white; text-shadow: black 0.1em 0.1em 0.2em; */
+}
+#lista1 ul {
+	margin:15px;
+	list-style:none;
+}
+#lista1 li {
+	padding:3px;
+	padding-left:20px;
+}
+
+/* ----- Formulario de Contacto ----- */
+.formContacto {
+	position:relative;
+	width:900px;
+	margin:auto;
+	padding:20px 20px 0 20px;
+}
+#formulario1 {
+	float:left;
+	width:460px;
+	margin-top:20px;
+}
+#formulario1 h3 {
+	color:#3e81a8;
+	font-size:12px;
+	text-align:left;
+	text-shadow:white 0.1em 0.1em 0.2em;
+}
+#listaContacto {
+	position:relative;
+	width:420px;
+	height:320px;
+	left:480px;
+	top:-305px;
+	border-right-color:#3e81a8; */
+	line-height:14px;
+	font-size:12px;
+	text-align:left;
+	color:#fff;
+	color: white; text-shadow: black 0.1em 0.1em 0.2em;
+}
+#listaContacto a {
+/*	margin:20px 0 0 40px;
+	padding:8px;
+	line-height:14px;
+	font-size:12px;
+	color:#fff;
+	color: white; text-shadow: black 0.1em 0.1em 0.2em; */
+}
+#listaContacto h3 {
+	text-align:left;
+	padding-right:20px;
+}
+#listaContacto ul {
+	margin:0px;
+	list-style:none;
+}
+#listaContacto li {
+	padding:3px;
+	text-align:left;
+	padding-left:0px;
+}
+/* --- FIN Formulario de Contacto --- */
 
 table {
-    width: 650px;
+    width: 400px;
+	margin:auto;
 }
 th {
-    text-align: center
+    text-align:center;
 }
 td {
-  vertical-align: top;
+	vertical-align:top;
 }
-
 hr {
     border-style:none none solid;
-    border-width:0 0 1px;
+    border-width:0 0 0.5px;
     clear:both;
-    color:#FFFFFF;
-    height:2px;
-    width: 750px;
+    color:#ff9122;
+    height:0.5px;
+    width:728px;
 }
-
 img{
-    border: 0
+    border:none;
 }
-
-a:link, a:visited {
-    color: black;
-    text-decoration: none;
-
+.logoPrincipal {
+	width:640px;
+	margin:30px auto 0 auto;
 }
-
-a:hover {
-    color: blue;
-    text-decoration: underline;
+.FollowBackCommunity {
+	position:fixed;
+	top:70px;
+	right:4%;
+	font-weight:normal;
+	text-align:center;
 }
-
+.pidiendoPerdon {
+	position:relative;
+	width:650px;
+	margin:auto;
+	text-align:center;
+}
+.pidiendoPerdon p {
+	padding:5px;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:14px;
+}
+#autenticar {
+	position:relative;
+	width:360px;
+	margin:auto;
+	height:52px;
+	margin-top:40px;
+	overflow:visible;
+}
+#autenticar h3 {
+	position:absolute;
+	height:52px;
+	top:0;
+	display:inline-block;
+}
+#autenticar a {
+	position:absolute;
+	display:inline;
+	top:0px;
+	left:170px;
+}
+#autenticar input {
+	position:relative;
+	display:inline;
+	top:30px;
+	left:170px;
+}
+#autenticar p {
+	position:absolute;
+	display:inline;
+	top:28px;
+	left:195px;
+	font-size:xx-small;
+}
+#autenticar div {
+	position:relative;
+	top:54px;
+}
+.cleared {
+	display:block;
+	clear: both;
+	float: none;
+	margin: 0;
+	padding: 0;
+	border: none;
+	font-size: 0;
+	height:0;
+	overflow:hidden;
+}
+.reset-box {
+	overflow:hidden;
+	display:table;
+}
+.licencia {
+    text-align:center;
+    text-size:12px;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-weight:normal;
+}
 .app{
     width: auto;
 }
-
-.footer{
+#histats_counter1 {
+	position:fixed;
+	left:4%;
+	bottom:14%;
+}
+#histats_counter2 {
+	position:fixed;
+	left:4%;
+	top:10%;
+}
+.widget1 {
+	width:728px;
+	height:330px;
+	margin:20px auto 0 auto;
+	background-image:url(imagenes/agua.gif);
+	overflow:hidden;
+}
+.widget1 a:link, .widget1 a:visited {
+	text-shadow:none;
+}
+.widgetsSocial {
     position:fixed;
-    bottom:10px;
-    right: auto;
-    font-size: small;
-    font-style: italic;
+	bottom:25px;
+	left:10px;
+}
+.widgetsSocial p {
+	margin:4px;
+}
+.contaEsquina {
+	position:relative;
+	margin-top:0;
+}
+.contadorPiePagina {
+	width:280px;
+	margin:20px auto 0 auto;
+}
+.pie1 {
+	width:100%;
+	padding:4px 0 4px 0;
+	background-image:url(/imagenes/agua.gif);
+	text-align:center;
+	white-space:nowrap;
+	color:#f0f0f0;
+}
+.pie1 a:link, .pie1 a:visited {
+	color:#00ff00;
+	text-decoration:none;
+	text-shadow:none;
+/*	text-shadow: 0.1em 0.1em 0.05em #333;
+	text-shadow:0 1px 2px #008000; */
+}
+.pie1 a:hover {
+    color:#80ff00;
+    text-decoration:underline;
+}
+.pie2 {
+	width:100%;
+	background-image:url(imagenes/agua.gif);
+	padding:4px 0 4px 0;
+	font-size:10px;
+	text-align:center;
+	color:#f0f0f0;
+	white-space:nowrap;
+}
+.pie2 a:link, .pie2 a:visited {
+	color:#00ff00;
+	text-decoration:none;
+	text-shadow:none;
+/*	text-shadow: 0.1em 0.1em 0.05em #333;
+	text-shadow:0 1px 2px #008000; */
+}
+.pie2 a:hover {
+    color:#80ff00;
+    text-decoration:underline;
+}
+.googleAdsense {
+	width:728px;
+	height:90px;
+	margin:20px auto 40px auto;
+}
+.herramientas {
+	width:780px;
+	margin:10px auto 0 auto;
+	position:relative;
+}
+.herramientas a {
+	font-size:14px;
+}
+.herramientas a:link, .herramientas a:visited {
+	color:#00ff00;
+	text-decoration:none;
+	text-shadow:#008000 0 1px 2px;
+/*	text-shadow: 0.1em 0.1em 0.05em #333;
+	text-shadow:0 1px 2px #008000; */
+}
+.herramientas a:hover {
+    color:#fc8043;
+/*	text-shadow:#f0f0f0 0 1px 2px; */
+    text-decoration:none;
 }
 
-.plusone{
-    position:fixed;
-    bottom:50px;
-    right: auto;
+.herramientas p {
+	padding:5px 0;
+}
+.herramientas div {
+	width:230px;
+	height:100px;
+	padding:10px;
+	background-image:url(/imagenes/agua.gif);
+	text-align:center;
+	color:#f0f0f0;
+}
+.patrocinadores {
+	margin-top:20px;
+	font-size:16px;
+	color:#fc8043;
+	text-align:center;
+}
+.patrocinadores a {
+	font-size:18px;
+	color:#fc8043;
+	text-decoration:blink;
+}
+.fila1 {
+	float:left;
+	margin:20px 5px 5px 5px;
+}
+.fila2, .fila3, .fila4 {
+	float:left;
+	margin:5px;;
+}
+/*
+.fila4 { /* Si se quiere centrar un div único
+	clear:left;
+	float:none;
+	width:230px;
+	height:100px;
+	margin:auto;;
+	padding:10px;
+	text-align:center;
+	overflow:visible;
+	display:block;
+} */
+
+.sugerencias {
+	clear:left;
+	width:760px;
+	margin:20px auto 0 auto;
+	position:relative;
+}
+.sugeSub {
+	float:left;
+	width:360px;
+	padding:0 10px 0 10px;
+	text-align:center;
+}
+.sugeSub p {
+	font-size:16px;
+	padding:5px;
 }
