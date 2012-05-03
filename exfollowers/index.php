@@ -1,149 +1,161 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-   <head>
-      <?php
-      $title = "Buscador de Ex-Followers";
-      $descr = "Encuentra a la gente que te ha dejado de seguir";
-      include("../includes/head.inc")
-      ?>
-   </head>
-   <body>
-      <?php
-      include("../includes/header.inc");
-      if ($_GET['action'] == "start") {
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
+<head>
+<?php
+	$title = "Buscador de Ex-Followers";
+	$descr = "Encuentra a la gente que te ha dejado de seguir";
+	include "../includes/head.inc";
+?>
+</head>
+<body>
+	<!-- MÃ³dulo wrapper -->
+	<div class="contenedor"> 
+		<!-- Contenido -->
+		<div class="contenidoLogin">
+			<?php include "../includes/encabezado_login.php";
 
-         session_start();
+			if($_GET['action'] == "start") {
+				session_start();
+				if(!isset($_SESSION['access_token'])) {header("Location: /");}
 
-         if (!isset($_SESSION['access_token'])) {
-            header("Location: /");
-         }
+				require "../includes/config.php";
+				require "../includes/tmhOAuth.php";
+				require "../includes/db.php";
 
-         require ("../includes/config.php");
-         require ("../includes/tmhOAuth.php");
-         require ("../includes/db.php");
+				$tmhOAuth=new tmhOAuth(array('consumer_key'=>ConsumerKey,'consumer_secret'=>ConsumerSecret));
+				$tmhOAuth->config['user_token'] = $_SESSION['access_token']['oauth_token'];
+				$tmhOAuth->config['user_secret'] = $_SESSION['access_token']['oauth_token_secret'];
 
-         $tmhOAuth = new tmhOAuth(array(
-                     'consumer_key' => ConsumerKey,
-                     'consumer_secret' => ConsumerSecret
-                 ));
-         $tmhOAuth->config['user_token'] = $_SESSION['access_token']['oauth_token'];
-         $tmhOAuth->config['user_secret'] = $_SESSION['access_token']['oauth_token_secret'];
+				//Twittear
+				if($_COOKIE['twitear'] != "no") {
+					$tmhOAuth->request('POST',$tmhOAuth->url('1/statuses/update'),array('status'=>"Usando las Twit-Herramientas \"Buscador de Ex-Followers\": Encuentra a la gente que te ha dejado de seguir. ".KCY, ));
+				}
 
-         //Twittear
-         if ($_COOKIE['twitear'] != "no") {
-            $tmhOAuth->request('POST', $tmhOAuth->url('1/statuses/update'), array(
-                'status' => "Usando las Twit-Herramientas \"Buscador de Ex-Followers\": Encuentra a la gente que te ha dejado de seguir. " . KCY,
-            ));
-         }
+				// Conseguir Followers
+				if(isset($_SESSION["followers"]["ids"]) && is_array($_SESSION["followers"]["ids"]) && count($_SESSION["followers"]["ids"]) != 0) {
+					$followers=$_SESSION["followers"];
+				} else {
+					$tmhOAuth->request('GET',$tmhOAuth->url('1/followers/ids'),array('id'=>$_SESSION["access_token"]["user_id"]));
+					$followers=array('ids'=>json_array($tmhOAuth->response['response'],'ids'),'num'=>count(json_array($tmhOAuth->response['response'],'ids')));		
+					if (!is_array($followers['ids'])) {$followers['ids']=array();}
+					$_SESSION["followers"] = $followers;
+				}
 
-         // Conseguir Followers
-	if (isset($_SESSION["followers"]["ids"]) && is_array($_SESSION["followers"]["ids"]) && count($_SESSION["followers"]["ids"]) != 0) {
-		$followers = $_SESSION["followers"];
-	} else {
-		$tmhOAuth->request('GET', $tmhOAuth->url('1/followers/ids'), array(
-			'id' => $_SESSION["access_token"]["user_id"]
-		));
-		$followers = array('ids' => json_array($tmhOAuth->response['response'],'ids'), 'num' => count(json_array($tmhOAuth->response['response'],'ids')));		
-		if (!is_array($followers['ids'])) {
-			$followers['ids'] = array();
-		}
-		$_SESSION["followers"] = $followers;
-	}
+				$link=mysql_connect(host,user,passdb);
+				mysql_select_db(database,$link);
 
-         $link = mysql_connect(host, user, passdb);
-         mysql_select_db(database, $link);
+				$sql1="SELECT * FROM exfollowers WHERE id={$_SESSION["access_token"]["user_id"]}";
+				$resultado1=mysql_query($sql1);
+				$usuario=mysql_fetch_array($resultado1);
 
-         $usuario = mysql_fetch_array(mysql_query("SELECT * FROM `Exfollowers` WHERE `ID` = {$_SESSION["access_token"]["user_id"]}"));
+				if(!isset($usuario["id"])) {
+					$sql2="INSERT INTO exfollowers (id,followers,usos) VALUES ({$_SESSION["access_token"]["user_id"]}, '".implode(";", $followers["ids"])."', 1)";
+					mysql_query($sql2);
+					header("Location:?action=start");
+				} else {
+					foreach(explode(";",$usuario["followers"]) as $viejofollower) {
+						if(!in_array($viejofollower,$followers["ids"])) {$exfollowers[]=$viejofollower;}
+				}
+				if(count($exfollowers) != 0) {
+					$tmhOAuth->request('GET',$tmhOAuth->url('1/users/lookup'),array('user_id'=>implode(",",$exfollowers),));
+			?>
+				<!-- PANTALLA 2: RESULTADO -->				
+				<table align="center" cellspacing="15px" cellpadding="0" style="border:1px solid #8ec1da; background-color:#c0deed; width:420px;">
+					<tr>
+						<th colspan="3" height="40" valign="middle" style="border:1px solid #8ec1da;"><h3 style=" font-size:16px; color:#3e81a8;"><?php echo count($exfollowers); ?> persona(s) te han dejado de seguir:</h3></th>
+					</tr>
+					<tr>
+						<th colspan="2">Nombre (@usuario)</th>
+					</tr>
+			<?php
+					$exfollowers_data=json_array($tmhOAuth->response['response']);
+					if(!is_array($exfollowers_data)) {$exfollowers_data=array();}
 
-         if (!isset($usuario["ID"])) {
-            mysql_query("INSERT INTO `Exfollowers` (`ID`, `Followers`, `Usos`) VALUES ({$_SESSION["access_token"]["user_id"]}, '" . implode(";", $followers["ids"]) . "', 1)");
-            header("Location: ?action=start");
-         } else {
-            foreach (explode(";", $usuario["Followers"]) as $viejofollower) {
-               if (!in_array($viejofollower, $followers["ids"])) {
-                  $exfollowers[] = $viejofollower;
-               }
-            }
-            if (count($exfollowers) != 0) {
-               $tmhOAuth->request('GET', $tmhOAuth->url('1/users/lookup'), array(
-                   'user_id' => implode(",", $exfollowers),
-               ));
-               ?>
-               <table cellspacing="15px" cellpadding="0" style="border: 1px solid #8ec1da; background-color: #c0deed; width: auto" align="center">
-                  <tbody>
-                     <tr><th colspan="2" style="text-align: center"><?= count($exfollowers) ?> persona(s) te han dejado de seguir:</th></tr>
-                     <tr>
-                        <th colspan="2">Nombre (@usuario)</th>
-                     </tr>
-                     <tr><td colspan="2"><hr style="width: 250px"></td></tr>
-                     <?
-                     $exfollowers_data = json_array($tmhOAuth->response['response']);
-                     if (!is_array($exfollowers_data)) {
-                        $exfollowers_data = array();
-                     }
-					 
-					 $unfollows = '';
-					 
-                     foreach ($exfollowers_data as $exfollower) {
-					 $unfollows .= "{$exfollower[id]}=".strtotime($tmhOAuth->response['headers']['date']).";";
-					 $exfollower = array_object($exfollower);
-                        ?>
-                        <tr>
-                           <td>
-                              <a title="<?= iconv("UTF-8", "ISO-8859-1//TRANSLIT", $exfollower->description) ?>" hreflang="en" target="_blank" href="http://twitter.com/<?= $exfollower->screen_name ?>"><img border="0" width="48" height="48" style="vertical-align: middle;" src="<?= $exfollower->profile_image_url ?>" alt="Imagen"></a>
-                           </td>
-                           <td>
-                              <address title="<?= iconv("UTF-8", "ISO-8859-1//TRANSLIT", $exfollower->description) ?>">
-                                 <span><?= iconv("UTF-8", "ISO-8859-1//TRANSLIT", $exfollower->name) ?> (<a hreflang="en" target="_blank" href="http://twitter.com/<?= $exfollower->screen_name ?>">@<?= $exfollower->screen_name ?></a>) <span style="color:gray">- <?= iconv("UTF-8", "ISO-8859-1//TRANSLIT", $exfollower->location) ?></span></span>
+					$unfollows="";
+					foreach($exfollowers_data as $exfollower) {
+						$unfollows.="{$exfollower[id]}".strtotime($tmhOAuth->response['headers']['date']).";";
+						$exfollower=array_object($exfollower);
+			?>
+					<tr>
+						<td><a title="<?php echo iconv("UTF-8","ISO-8859-1//TRANSLIT",$exfollower->description); ?>" hreflang="en" target="_blank" href="http://twitter.com/<?php echo $exfollower->screen_name; ?>"><img border="0" width="48" height="48" style="vertical-align:middle;" src="<?php echo $exfollower->profile_image_url; ?>" alt="Imagen"></a></td>
+						<td><address title="<?php echo iconv("UTF-8","ISO-8859-1//TRANSLIT",$exfollower->description); ?>">
+							<span><?php echo iconv("UTF-8","ISO-8859-1//TRANSLIT",$exfollower->name); ?> (<a hreflang="en" target="_blank" href="http://twitter.com/<?php echo $exfollower->screen_name; ?>">@<?php echo $exfollower->screen_name; ?></a>) <span style="color:gray">- <?php echo iconv("UTF-8","ISO-8859-1//TRANSLIT",$exfollower->location); ?></span></span></address>
+							<span><span style="font-size:smaller; color:#666666"><?php echo iconv("UTF-8","ISO-8859-1//TRANSLIT",$exfollower->status->text); ?>&nbsp;<br /><?php echo $exfollower->status->created_at; ?></span></span></td>
+						<!-- td style="text-align:center"><input type="checkbox" name="<?php echo $traidor_data->id ?>"></td -->
+					</tr>
+		  <?php	} //echo php_error(); ?>
+				</table>
+	  <?php	} else {
+				//-- PANTALLA 2 ALTERNATIVA: Aviso ningÃºn #FollowBack adeudado -->				
+				echo "<p class='p1' style='font-size:24px; margin-top:80px;'>Tienes los mismos followers que en la Ãºltima consulta.</p><br /><br />";
 
-                              </address>
-                              <span>
-                                 <span style="font-size:smaller; color:#666666">
-                                    <?= iconv("UTF-8", "ISO-8859-1//TRANSLIT", $exfollower->status->text) ?>&nbsp; <br /><?= $exfollower->status->created_at ?>
-                                 </span>
 
-                              </span>
-                           </td>
-                        </tr>
-                        <?
-                     }
-                     ?>
-                  </tbody></table>
-               <?
-            } else {
-               echo("<p align=\"center\">Tienes los mismos followers que la última vez que lo consultaste.</p>");
-            }
-            $usos = $usuario["Usos"] + 1;
-            if (!strlen($unfollows)) {
-			mysql_query("UPDATE `Exfollowers` SET `Followers` = '" . implode(";", $followers["ids"]) . "', `Usos` = '" . $usos . "' WHERE `Exfollowers`.`ID` = '{$_SESSION["access_token"]["user_id"]}'");
+/*-PRUEBA-->*/	//echo print_r($unfollows);
+/*-PRUEBA-->*/	//echo print_r($usuario);
+
 			}
-			else {
-			mysql_query("UPDATE `Exfollowers` SET `Unfollows` = concat(`Unfollows`,'".mysql_real_escape_string($unfollows)."'), `Followers` = '" . implode(";", $followers["ids"]) . "', `Usos` = '" . $usos . "' WHERE `Exfollowers`.`ID` = '{$_SESSION["access_token"]["user_id"]}'");
+			$usos=$usuario["usos"]+1;
+			if(!strlen($unfollows)) {
+				mysql_query("UPDATE exfollowers SET followers='".implode(";",$followers["ids"])."',usos='".$usos."'WHERE exfollowers.id='{$_SESSION["access_token"]["user_id"]}'");
+			} else {
+				mysql_query("UPDATE exfollowers SET unfollows=concat(unfollows,'".mysql_real_escape_string($unfollows)."'),followers='".implode(";",$followers["ids"])."',usos='".$usos."' WHERE exfollowers.id='{$_SESSION["access_token"]["user_id"]}'");
 			}
-         }
-         ?><p align="center"><button onclick="location.href='?action='">Volver</button></p><?
-      } else {
-         ?>
-         <hr>
-         <p align="center">
-            <? include("../includes/ads.inc"); ?>
-         </p>
-         <hr>
-         <table align="center"><tbody><tr>
-                  <td>
-                     <p>El "Buscador de Ex-Followers" es una herramienta que te mostrará que usuarios han dejado de seguirte.</p>
-                     <p>Funcionamiento:<br />
-                        La primera vez que uses el "Buscador de Ex-Followers", registrará los followers que tienes en este momento.<br />
-                        A partir de entonces, cada vez que visites la herramienta de nuevo te dirá quienes te han dejado de seguir, tomando como referencia la última vez que lo visitaste.</p>
-                  </td>
-               </tr>
-               <tr><th colspan="2"><button onclick="location.href='?action=start'"><? $mensajes = array("¡Empezar!", "¡Dale Caña!", "¡Dime quién me ha dejado de seguir!", "¡Enséñamelos!", "Ok pipol, press estart");
-         echo($mensajes[rand(0, count($mensajes) - 1)]); ?></button></th></tr>
-            </tbody></table>
-         <hr>
-      <? } ?>
+		} ?>
+				<br /><p align="center"><input type='button' onclick="location.href='?action='" value="&emsp;Volver&emsp;" style="padding:6px;" /></p>
+<?php } else { ?>
+				<!-- FIN PANTALLA 2: RESULTADO -->
 
-      <? include("../includes/footer.inc"); ?>
+				<!-- hr>
+				<p align="center">< ?php include "../includes/ads.inc"; ? ></p>
+				<hr -->
 
-   </body>
+				<!-- PRIMER PANTALLA -->
+				<h1 class="p1" style="font-size:24px;">Buscador de Ex-Followers</h1>
+				<table align="center" cellspacing="30px" style="width:700px;">
+					<tr>
+						<td width="40px">&nbsp;</td>
+						<td><img src="../imagenes/lupa.jpg" alt="Reciprocidad"></td>
+						<td style="margin-top:-20px;"><p class="p2">Es una herramienta que muestra
+							<br />quÃ© usuarios te dejaron de seguir.</p>
+							<h3 class="p2">Funcionamiento:</h3>
+							<p class="p2">La primera vez que la uses, registrarÃ¡
+							<br />los followers que tienes en ese momento.</p>	
+							<p class="p2">A partir de entonces, cada vez que la uses
+							<br />listarÃ¡ a quiÃ©nes te dejaron de seguir,
+							<br />tomando como referencia
+							<br />la Ãºltima vez que utilizaste la herramienta.</p></td>
+					</tr>
+					<tr>
+						<th colspan="3"><input type='button' onclick="location.href='?action=start'" value='&emsp;<?php $mensajes=array("Â¡ Empezar !","Â¡ Dale CaÃ±a !","Â¡ Dime quiÃ©n me ha dejado de seguir !","Â¡ EnsÃ©Ã±amelos !","Ok pipol, press estart");
+										echo $mensajes[rand(0,count($mensajes)-1)]; ?>&emsp;' style="padding:6px;" /></th>
+					</tr>
+				</table>
+				<!-- FIN PRIMER PANTALLA -->
+<?php } ?>
+
+		</div>
+		<!-- FIN Contenido -->	
+	</div>
+	<!-- FIN MÃ³dulo wrapper -->	
+
+	<?php include "../includes/pie_login.php"; ?>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+ 
+	//Checkbox
+	$("input[name=checktodos]").change(function(){
+		$('input[type=checkbox]').each( function() {			
+			if($("input[name=checktodos]:checked").length == 1){
+				this.checked = true;
+			} else {
+				this.checked = false;
+			}
+		});
+	});
+ 
+});
+</script>
+</body>
 </html>
